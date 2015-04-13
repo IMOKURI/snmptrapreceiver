@@ -25,8 +25,8 @@ clOptions = info ( helper <*> clOptions' )
 
 clOptions' :: Parser CLOptions
 clOptions' = CLOptions
-  <$> strOption ( long "ip"   <> metavar "IP"   <> help "IP address that is listened" <> value "0.0.0.0" )
-  <*> strOption ( long "port" <> metavar "PORT" <> help "PORT that is listened"       <> value "162" )
+  <$> strOption ( short 'i' <> metavar "IP"   <> help "IP address that is listened" <> value "0.0.0.0" )
+  <*> strOption ( short 'p' <> metavar "PORT" <> help "PORT that is listened"       <> value "162" )
 
 
 takeSockAddr :: CLOptions -> IO SockAddr

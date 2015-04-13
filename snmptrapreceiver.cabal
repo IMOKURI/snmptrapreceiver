@@ -21,6 +21,7 @@ executable snmptrapreceiver
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.6 && <4.7
+                     , bytestring
                      , conduit
                      , conduit-extra
                      , network
