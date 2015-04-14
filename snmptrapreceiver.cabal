@@ -26,6 +26,7 @@ executable snmptrapreceiver
                      , bytestring
                      , conduit
                      , conduit-extra
+                     , data-default
                      , network
                      , optparse-applicative
                      , text

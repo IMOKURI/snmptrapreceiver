@@ -5,6 +5,7 @@ module TrapTypes
 ) where
 
 import Data.ASN1.Types
+import Data.Default
 import qualified Data.Text as T
 import Data.Text.Encoding
 import Data.Time.LocalTime
@@ -12,24 +13,29 @@ import Network.Socket
 
 type TrapLog = (ZonedTime, HostName, Trap)
 
-data Trap = Trap { agentAddr :: HostName
+data Trap = Trap { agentAddr :: T.Text
                  , version :: Integer
                  , community :: T.Text
+                 , enterprise :: OID
+                 , generic :: Integer
+                 , specific :: Integer
+                 , trapoid :: OID
+                 , varbind :: [ASN1]
                  } deriving Show
 
+instance Default Trap where
+  def = Trap { agentAddr = undefined
+             , version = undefined
+             , community = undefined
+             , enterprise = undefined
+             , generic = undefined
+             , specific = undefined
+             , trapoid = undefined
+             , varbind = undefined
+             }
+
 instance ASN1Object Trap where
-  toASN1 t = const $ Start Sequence
-                   : IntVal ((version t)-1)
-                   : OctetString (encodeUtf8 (community t))
-                   -- trap pdu
-                   : End Sequence
-                   : []
-  fromASN1 ( Start Sequence
-           : IntVal v
-           : OctetString c
-           -- trap pdu
-           : xs ) = Right ( Trap { agentAddr = ""
-                                 , version = (v+1)
-                                 , community = decodeUtf8 c }, xs )
+  toASN1 _ = const undefined
+
   fromASN1 _ = Left "fromASN1: Parse error"
 
