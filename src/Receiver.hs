@@ -21,14 +21,14 @@ import System.IO
 
 trapReceiver :: SockAddr -> IO ()
 trapReceiver sockAddr =
-  bracket (openFile "./log/snmptrap.log" AppendMode) hClose $ \hdl -> do
+  withFile "./log/snmptrap.log" AppendMode $ \hdl -> do
     hSetBuffering hdl NoBuffering
     withSocketsDo $ bracket (socket AF_INET Datagram 0) close $ \sock -> do
       bind sock sockAddr
       loop hdl sock
   where loop h s = (sourceSocket s maxUdpFrameBytes
                    $= parsingMsg
-                   $$ (loggingMsgTo h)
+                   $$ loggingMsgTo h
                    ) >> loop h s
 
 
@@ -42,7 +42,7 @@ parsingMsg = do
       asn1 <- liftIO $ either throwIO return $ decodeASN1' BER msg
       trap <- liftIO $ either (throwIO . ErrorCall) return $ fst <$> fromASN1 asn1
       (Just hostname,_) <- liftIO $ getNameInfo [] True False sender
-      yield (time, hostname, trap) >> parsingMsg
+      yield (time, hostname, trapoid trap, varbind trap) >> parsingMsg
 
 
 loggingMsgTo :: Handle -> Sink TrapLog IO ()
