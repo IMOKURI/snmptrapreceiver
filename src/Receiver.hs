@@ -6,7 +6,6 @@ module Receiver
 import Config
 import TrapTypes
 
-import Control.Applicative
 import Control.Exception
 import Control.Monad.IO.Class
 import Data.ASN1.BinaryEncoding

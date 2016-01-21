@@ -1,7 +1,7 @@
 name:                snmptrapreceiver
 version:             0.1.0.0
 synopsis:            SNMP trap receiver
--- description:         
+description:         Please see README.md
 license:             MIT
 license-file:        LICENSE
 author:              IMOKURI
@@ -19,8 +19,11 @@ source-repository head
 executable snmptrapreceiver
   hs-source-dirs:      src
   main-is:             Main.hs
+  other-modules:       TrapTypes
+                     , Config
+                     , Receiver
   ghc-options:         -Wall
-  build-depends:       base >=4.6 && <4.7
+  build-depends:       base >=4.6 && <5
                      , asn1-encoding
                      , asn1-types
                      , bytestring

@@ -6,7 +6,6 @@ module Config
 , takeSockAddr
 ) where
 
-import Control.Applicative
 import Data.Monoid
 import Network.Socket
 import Options.Applicative
